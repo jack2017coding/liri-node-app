@@ -9,10 +9,18 @@ var fs = require('fs');
 if(argument === "my-tweets"){
   return myTweets(); 
 }
-if(argument === "spotify-this-song"){
+if((argument === "spotify-this-song") && (query != undefined)){
   return spotifyThisSong(); 
 }  
-if(argument === "movie-this"){
+if((argument === "spotify-this-song") && (query === undefined)){
+  query = 'The Sign';
+  return spotifyThisSong(); 
+} 
+if((argument === "movie-this") && (query != undefined)){
+  return movieThis();
+}
+if((argument === "movie-this") && (query === undefined)){
+  query = 'Mr. Nobody';
   return movieThis();
 }
 if (argument === "do-what-it-says"){
@@ -62,6 +70,27 @@ twitterUser
 // Spotify-This-Song Function
 function spotifyThisSong(){
   console.log("spotifyThisSong");
+    
+  spotify.search({ type: 'track', query: query}, function(err, data){
+        
+    if (err) {
+    return console.log('Error occurred: ' + err);
+    }
+    else {
+      var data = data.tracks.items;
+      for(var i =0; i < data.length; i++){
+                
+        console.log(data[i].name); 
+        console.log(data[i].album.href);
+        console.log(data[i].album.name); 
+        console.log(data[i].preview_url); 
+            
+      for(var j =0; j < data[i].artists.length; j++){
+        console.log(data[i].artists[j].name); 
+      }
+      }
+    }
+  });
 };
 
 
@@ -86,15 +115,11 @@ request(queryUrl, function(error, response, body){
       } 
 });
 };
-
+  
 // Do-What-It-Says Function
 function doWhatItSays(){
   console.log("doWhatItSays");
   fs.readFile('random.txt', "utf8", function(err, data){
     console.log(data);
   });
-};
-
-function outputText(){
-  fs.appendFile('log.txt', 'Argument: ' + argument + '. Movie or Song Title: ' + query + '.'); 
 };
