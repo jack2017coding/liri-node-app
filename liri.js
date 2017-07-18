@@ -71,8 +71,7 @@ twitterUser
 function spotifyThisSong(){
   console.log("spotifyThisSong");
     
-  spotify.search({ type: 'track', query: query}, function(err, data){
-        
+  spotify.search({ type: 'track', query: query}, function(err, data){     
     if (err) {
     return console.log('Error occurred: ' + err);
     }
