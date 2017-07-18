@@ -1,32 +1,26 @@
 
-// Get Actin Required Information
-var inquireArgument = require("inquirer");
+// Initiate Variable to Start Process
+var request = require('request');
+var argument = process.argv[2];
+var query = process.argv[3];
+var fs = require('fs');
 
-// Create a "Prompt" with a series of questions.
-inquireArgument
-  .prompt(
-    // Here we create a basic text prompt.
-  {
-    type: "list",
-    message: "Choose from the list?",
-    choices: ["my-tweets", "spotify-this-song", "movie-this", "do-what-it-says"],
-    name: "todo"
-  })
-  .then(function(inquirerResponse) {
-    console.log(inquirerResponse.todo)
-    if(inquirerResponse.todo === "my-tweets"){
-    return myTweets();  
-    }
-    if(inquirerResponse.todo === "spotify-this-song"){
-    return spotifyThisSong();  
-    }  
-    if(inquirerResponse.todo === "movie-this"){
-    return movieThis();  
-    }
-    else {
-    return doWhatItSays();
-    }  
-  });
+
+if(argument === "my-tweets"){
+  return myTweets(); 
+}
+if(argument === "spotify-this-song"){
+  return spotifyThisSong(); 
+}  
+if(argument === "movie-this"){
+  return movieThis();
+}
+if (argument === "do-what-it-says"){
+  return doWhatItSays();
+}
+else{
+  console.log("Try Entering Correct Information")
+};  
 
 
 // My-Tweets Function
@@ -64,19 +58,43 @@ twitterUser
   });
 };
 
+
 // Spotify-This-Song Function
 function spotifyThisSong(){
   console.log("spotifyThisSong");
 };
 
+
 // Movie-This Function
 function movieThis(){
   console.log("movieThis");
+console.log(query);
+
+var queryUrl = "http://www.omdbapi.com/?t=" + query + "&y=&plot=short&apikey=40e9cece"; 
+
+request(queryUrl, function(error, response, body){
+
+     if (!error && response.statusCode === 200) {
+        var movieData= JSON.parse(response.body)
+         console.log("Title: " + movieData.Title)
+         console.log("Year: " + movieData.Year)
+         console.log("IMDB Rating: " + movieData.imdbRating)
+         console.log("Country: " + movieData.Country)
+         console.log("Language: " + movieData.Language)
+         console.log("Plot: " + movieData.Plot)
+         console.log("Actors: " + movieData.Actors)
+      } 
+});
 };
 
 // Do-What-It-Says Function
 function doWhatItSays(){
   console.log("doWhatItSays");
+  fs.readFile('random.txt', "utf8", function(err, data){
+    console.log(data);
+  });
 };
 
-
+function outputText(){
+  fs.appendFile('log.txt', 'Argument: ' + argument + '. Movie or Song Title: ' + query + '.'); 
+};
