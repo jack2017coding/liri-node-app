@@ -76,8 +76,8 @@ function spotifyThisSong(){
   
   // User to enter his or her client id and client secret information
   var spotify = new Spotify({
-  id: <your spotify client id>,
-  secret: <your spotify client secret>
+  id: "", // <your spotify client id>,
+  secret: "" //<your spotify client secret>
   });
     
   spotify.search({ type: 'track', query: query}, function(err, data){     
