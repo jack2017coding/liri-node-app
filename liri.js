@@ -1,5 +1,5 @@
 
-// Initiate Variable to Start Process
+// Initiate Variables to Start Process
 var request = require('request');
 var argument = process.argv[2];
 var query = process.argv[3];
@@ -70,6 +70,13 @@ twitterUser
 // Spotify-This-Song Function
 function spotifyThisSong(){
   console.log("spotifyThisSong");
+
+  var Spotify = require('node-spotify-api');
+  
+  var spotify = new Spotify({
+  id: <your spotify client id>,
+  secret: <your spotify client secret>
+  });
     
   spotify.search({ type: 'track', query: query}, function(err, data){     
     if (err) {
