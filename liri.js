@@ -41,6 +41,7 @@ var twitterUser = require("inquirer");
 twitterUser
   .prompt(
     // Here we create a basic text prompt.
+    // User to enter his or her user information and product key
   {
     type: "input",
     message: "Enter Twitter Screen Name?",
@@ -73,6 +74,7 @@ function spotifyThisSong(){
 
   var Spotify = require('node-spotify-api');
   
+  // User to enter his or her client id and client secret information
   var spotify = new Spotify({
   id: <your spotify client id>,
   secret: <your spotify client secret>
